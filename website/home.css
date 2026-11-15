@@ -5,8 +5,8 @@
 
 .home {
   /* Fill the screen, so the fade sits at the very bottom
-     (150px = the height of .fade-to-black) */
-  min-height: calc(100vh - 150px);
+     (3.375vw = the height of the fade, see the bottom of this file) */
+  min-height: calc(100vh - 3.375vw);
   padding: 130px 6vw 60px;            /* 84px top bar + some air */
 
   /* Real-life sizes: Mars is 1.951x wider than the Moon
@@ -114,6 +114,14 @@
 .destination:focus-visible {
   outline: 3px solid #ffffff;
   outline-offset: 8px;
+}
+
+/* ---------- Fade into black at the end ---------- */
+
+/* Same short fade as under the Mars map: that map is full width and 16:9,
+   and fades over its last 6%, so 6% x 9/16 = 3.375% of the screen width */
+.page-home .fade-to-black {
+  height: 3.375vw;
 }
 
 /* ---------- Respect people who turn off animations ---------- */

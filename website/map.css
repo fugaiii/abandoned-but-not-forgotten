@@ -103,3 +103,35 @@
   top: 0.55em;
   text-align: right;
 }
+
+/* ---------- Frosted box in the bottom-left corner ---------- */
+
+/* Same look as the top bar: same tint, blur, and thin light border */
+.map-facts {
+  position: absolute;
+  z-index: 1;
+  left: 4%;
+  bottom: 9%;                         /* stays above the black fade */
+  width: max-content;                 /* as wide as the longest line */
+  margin: 0;
+  padding: 1.1em 1.4em 1.1em 2.4em;   /* extra room on the left for the bullets */
+
+  background: var(--bar-tint, rgba(30, 20, 15, 0.35));
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1.4em;
+
+  font-size: max(1.2cqw, 8px);        /* grows and shrinks with the map */
+  line-height: 1.45;
+  color: #ffffff;
+  list-style: disc;
+}
+
+.map-facts li + li {
+  margin-top: 0.9em;                  /* the gap between the two facts */
+}
+
+.map-facts li::marker {
+  color: #ffffff;
+}
