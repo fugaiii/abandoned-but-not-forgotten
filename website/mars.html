@@ -12,6 +12,8 @@
 
   <!-- Our own styles -->
   <link rel="stylesheet" href="style.css">
+  <!-- NEW: styles for the rover + dialogs -->
+  <link rel="stylesheet" href="rover.css">
 </head>
 <body class="page-mars">
 
@@ -33,10 +35,75 @@
   <!-- Your actual page content goes here -->
   <main class="content">
     <p>Text about Mars goes here.</p>
+
+    <!-- NEW: the rover. Hover a part to peek, click it to keep the dialog open -->
+    <section class="rover-section">
+      <div class="rover">
+
+        <!-- The whole rover picture -->
+        <img class="rover-img" src="images/rover.webp" alt="A Mars Exploration Rover">
+
+        <!-- Clickable parts. clip-path = a rough area around the part;
+             the white outline itself hugs the real edges of the picture. -->
+        <div class="part" data-part="wheels">
+          <img src="images/rover.webp" alt="" style="clip-path: polygon(0% 100%, 0% 83.2%, 10.9% 83.2%, 13.2% 82.1%, 19.1% 79.8%, 22.4% 77.1%, 24.4% 73.4%, 26.4% 71.8%, 29.8% 71.6%, 29.8% 80.3%, 47.7% 80.3%, 48.8% 78.4%, 50.3% 75%, 52.1% 71.5%, 55.4% 70.5%, 60.6% 63.8%, 62.2% 63.8%, 65.7% 74%, 72.6% 73.8%, 83.2% 77.1%, 83.2% 100%)">
+        </div>
+
+        <div class="part" data-part="pancam">
+          <img src="images/rover.webp" alt="" style="clip-path: polygon(19.8% 0%, 43.6% 0%, 43.6% 8.2%, 38% 9.2%, 21.1% 11.9%, 19.8% 11.9%)">
+        </div>
+
+        <!-- Dialogs. data-part must match the part above it belongs to. -->
+        <div class="info" data-part="wheels">
+          <div class="bubble">
+            <h3>Rocker-bogie system</h3>
+            <div class="bubble-body">
+              <img src="images/mars.jpg" alt="">
+              <p>Mobility system had to fit inside the lander for the journey to Mars. After landing, it unfolded and locked into place so the rovers could drive away.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="info" data-part="pancam">
+          <div class="bubble">
+            <h3>Pancam</h3>
+            <div class="bubble-body">
+              <p>To make a color picture, the Pancam takes three pictures of the same scene: one through a <span class="c-red">red</span> filter, <span class="c-green">green</span> filter, <span class="c-blue">blue</span> filter, and combines them into one color image.</p>
+              <img src="images/mars.jpg" alt="">
+            </div>
+          </div>
+          <!-- Optional extra box under the rover. Delete it if a part doesn't need one. -->
+          <div class="note">
+            <p>The cameras also use filters that detect light at wavelengths from about 400 to 1,100 nanometres. Some of this light, called near-infrared, is invisible to our eyes. Different rocks and soils reflect light differently at different wavelengths and identify them.</p>
+            <img src="images/mars.jpg" alt="">
+          </div>
+        </div>
+
+      </div>
+    </section>
   </main>
 
   <!-- Short fade from the page color into black at the very end -->
   <div class="fade-to-black"></div>
+
+  <!-- NEW: the filter that draws the thick outline around rover parts -->
+  <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+    <filter id="rover-outline" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feComponentTransfer result="fat">
+        <feFuncA type="linear" slope="20" intercept="-1"/>
+      </feComponentTransfer>
+      <feFlood flood-color="#ffffff"/>
+      <feComposite in2="fat" operator="in"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </svg>
+
+  <!-- NEW: makes the rover parts clickable -->
+  <script src="rover.js"></script>
 
 </body>
 </html>

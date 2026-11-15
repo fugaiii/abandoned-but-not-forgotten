@@ -1,0 +1,176 @@
+/* ==========================================================
+   ROVER + DIALOGS  (Mars page)
+   Hover a part = peek at it.  Click a part = it stays open.
+   ========================================================== */
+
+/* Space above the rover (for the dialog) and below it (for the note) */
+.rover-section {
+  padding: 270px 0 190px;
+}
+
+/* The box everything is positioned in. Same size as the rover picture. */
+.rover {
+  position: relative;
+  max-width: 760px;
+  margin: 0 auto;
+
+  /* Where the top of the rover's head is, in % of the picture.
+     The dialog's little arrow points here. */
+  --head-x: 31.7%;
+  --head-top: 1.2%;
+}
+
+.rover img {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* ---------- Clickable parts + their outline ---------- */
+
+/* Each part is a copy of the rover picture laid exactly on top,
+   cut down to just that part (clip-path in the HTML).
+   The SVG filter #rover-outline draws a thick white line
+   around whatever is left, so it hugs the real shape. */
+.part {
+  position: absolute;
+  inset: 0;
+  opacity: 0;                         /* invisible until hovered/clicked */
+  pointer-events: none;               /* only the cut-out picture is clickable... */
+  filter: url(#rover-outline) drop-shadow(0 3px 6px rgba(60, 30, 10, 0.35));
+}
+
+.part img {
+  pointer-events: auto;               /* ...this one */
+  cursor: pointer;
+}
+
+.part.on {
+  opacity: 1;
+  animation: rover-fade-in 0.2s ease-out;
+}
+
+/* ---------- The dialog ---------- */
+
+/* One .info per part. Covers the rover box so its children can be
+   placed relative to the rover. The shadow goes on this wrapper so
+   the bubble and its arrow share one smooth shadow. */
+.info {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;               /* don't block hovering the parts */
+  color: #5b3a24;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  filter: drop-shadow(0 8px 14px rgba(70, 35, 15, 0.28));
+}
+
+.info.on {
+  display: block;
+  animation: rover-pop-in 0.25s ease-out;    /* fade in only, no fade out */
+}
+
+/* The arrow under the bubble, pointing at the rover's head */
+.info::after {
+  content: '';
+  position: absolute;
+  left: var(--head-x);
+  bottom: calc(100% - var(--head-top) + 12px);
+  width: 26px;
+  height: 26px;
+  background: #fdf5ea;
+  border-bottom-right-radius: 6px;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+/* The bubble itself. Sits on top of the head and grows UPWARDS,
+   and gets as wide as its content needs (up to max-width). */
+.bubble,
+.note {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: fit-content;
+  pointer-events: auto;
+  background: #fdf5ea;
+  border-radius: 26px;
+}
+
+.bubble {
+  bottom: calc(100% - var(--head-top) + 26px);
+  max-width: min(540px, 100%);
+  padding: 16px 22px 20px;
+}
+
+.bubble h3 {
+  margin: 0 0 10px;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #c4572a;
+}
+
+/* Text + picture side by side. Order = the order in the HTML. */
+.bubble-body,
+.note {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.bubble p,
+.note p {
+  margin: 0;
+}
+
+/* Little "sticker" style pictures */
+.bubble img,
+.note img {
+  width: 150px;
+  max-width: 40%;
+  flex-shrink: 0;
+  border: 4px solid #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
+  rotate: -2deg;
+}
+
+/* Optional extra box under the rover */
+.note {
+  top: calc(100% + 22px);
+  max-width: min(640px, 100%);
+  padding: 14px 18px;
+  font-size: 0.75rem;
+}
+
+/* Colored words, e.g. <span class="c-red">red</span> */
+.c-red   { color: #d63a3a; }
+.c-green { color: #3a9e4a; }
+.c-blue  { color: #3a6fd6; }
+
+/* ---------- Animations ---------- */
+
+@keyframes rover-fade-in {
+  from { opacity: 0; }
+}
+
+@keyframes rover-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .part.on,
+  .info.on {
+    animation: none;
+  }
+}
