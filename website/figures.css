@@ -1,11 +1,31 @@
 /* ==========================================================
-   MOON PAGE: Lunar Module + Lunar Rover with clickable parts
-   Same idea as the Mars rover:
-   hover a part = peek, click a part = it stays open.
+   FIGURES: pictures with clickable parts + talking dialogs
+   Used on the Moon AND Mars pages.
+   Hover a part = peek, click a part = it stays open.
    When nothing is picked, the "default" dialog shows.
    ========================================================== */
 
-/* ---------- Headings ("Lunar Module", "Here's my rover!") ---------- */
+/* ---------- Colors (each page gets its own) ---------- */
+
+/* Mars: cream dialogs with a warm shadow */
+.figure {
+  --bubble-bg: #fdf5ea;
+  --bubble-text: #5b3a24;
+  --bubble-title: #c4572a;
+  --bubble-shadow: drop-shadow(0 8px 14px rgba(70, 35, 15, 0.28));
+  --outline-shadow: drop-shadow(0 3px 6px rgba(60, 30, 10, 0.35));
+}
+
+/* Moon: dark grey dialogs with a soft LIGHT shadow, so they show on black */
+.page-moon .figure {
+  --bubble-bg: #3d3d3d;
+  --bubble-text: #ffffff;
+  --bubble-title: #ffffff;
+  --bubble-shadow: drop-shadow(0 4px 16px rgba(255, 255, 255, 0.22));
+  --outline-shadow: drop-shadow(0 0 6px rgba(255, 255, 255, 0.35));
+}
+
+/* ---------- Headings ---------- */
 
 .figure-title {
   margin: 60px 0 30px;
@@ -24,7 +44,7 @@
   user-select: none;
 }
 
-/* ---------- One figure = dialogs on top + picture below ---------- */
+/* ---------- One figure = dialogs + picture (+ boxes under it) ---------- */
 
 .figure {
   /* How wide the picture gets */
@@ -42,33 +62,48 @@
 /* All dialogs of one figure sit on top of each other in the SAME spot.
    That spot is as tall as the tallest dialog, so a long text
    never covers the heading above it. */
-.bubbles {
+.bubbles,
+.notes {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);   /* the cell never grows wider than the page */
   position: relative;
   z-index: 2;
+  pointer-events: none;               /* don't block hovering the parts */
+  filter: var(--bubble-shadow);
+}
+
+.bubbles {
   padding-bottom: 22px;               /* room for the arrow */
   margin-bottom: calc(var(--overlap) * var(--fig-w) * -1);
-  pointer-events: none;               /* don't block hovering the parts */
-  /* Soft LIGHT shadow, so it shows up on the black page */
-  filter: drop-shadow(0 4px 16px rgba(255, 255, 255, 0.22));
+}
+
+/* Boxes UNDER the picture (like the extra Pancam box) */
+.notes {
+  margin-top: 22px;
 }
 
 .bubble {
   grid-area: 1 / 1;                   /* everyone in the same cell */
-  align-self: end;                    /* short dialogs sit at the bottom, near the arrow */
+  align-self: end;                    /* short dialogs sit near the arrow */
   justify-self: center;
   width: fit-content;                 /* as wide as the text needs... */
   max-width: min(560px, 100%);        /* ...up to this */
   visibility: hidden;
   pointer-events: auto;
 
-  background: #3d3d3d;
-  color: #ffffff;
+  background: var(--bubble-bg);
+  color: var(--bubble-text);
   border-radius: 20px;
   padding: 14px 22px 16px;
   font-size: 0.8rem;
   line-height: 1.6;
   text-align: center;
+}
+
+.notes .bubble {
+  align-self: start;
+  max-width: min(640px, 100%);
+  font-size: 0.75rem;
 }
 
 .bubble.on {
@@ -84,7 +119,7 @@
   bottom: 10px;
   width: 24px;
   height: 24px;
-  background: #3d3d3d;
+  background: var(--bubble-bg);
   border-bottom-right-radius: 5px;
   transform: translateX(-50%) rotate(45deg);
 }
@@ -95,10 +130,18 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+  color: var(--bubble-title);
 }
 
 .bubble p {
   margin: 0;
+}
+
+/* The underlined "click on my parts" line */
+.bubble .hint {
+  margin-top: 6px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 /* Text + picture side by side. Order = the order in the HTML. */
@@ -109,9 +152,11 @@
 }
 
 .bubble-body p {
+  min-width: 0;
   text-align: left;
 }
 
+/* Photos = little "stickers" */
 .bubble img {
   width: 140px;
   max-width: 40%;
@@ -121,7 +166,20 @@
   rotate: -2deg;
 }
 
-/* ---------- The picture + clickable parts (same as Mars) ---------- */
+/* Cut-out pictures (transparent background) = no frame, just a shadow */
+.bubble img.cutout {
+  border: none;
+  border-radius: 0;
+  rotate: 0deg;
+  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.3));
+}
+
+/* Colored words, e.g. <span class="c-red">red</span> */
+.c-red   { color: #d63a3a; }
+.c-green { color: #3a9e4a; }
+.c-blue  { color: #3a6fd6; }
+
+/* ---------- The picture + clickable parts ---------- */
 
 .figure-picture {
   position: relative;
@@ -144,7 +202,7 @@
   inset: 0;
   opacity: 0;
   pointer-events: none;
-  filter: url(#outline) drop-shadow(0 0 6px rgba(255, 255, 255, 0.35));
+  filter: url(#outline) var(--outline-shadow);
 }
 
 .part img {
@@ -160,13 +218,74 @@
   animation: figure-fade-in 0.2s ease-out;
 }
 
+/* ---------- Dialog BESIDE the picture (add class "fig-side") ---------- */
+/* Dialog on the left, arrow pointing right at the picture.
+   On phones there's no room, so it goes back on top. */
+
+@media (min-width: 600px) {
+  /* dialog | picture, side by side, centered together */
+  .fig-side {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .fig-side .bubbles {
+    flex: 0 1 340px;                  /* up to 340px wide, shrinks if needed */
+    min-width: 0;
+    padding: 0 22px 0 0;              /* room for the arrow on the right */
+    margin: 0;
+  }
+
+  .fig-side .bubble {
+    align-self: start;
+    width: 100%;                      /* exactly as wide as its column, never wider */
+  }
+
+  /* pictures may shrink in these narrow dialogs, but not below 80px */
+  .fig-side .bubble img {
+    flex-shrink: 1;
+    min-width: 80px;
+  }
+
+  .fig-side .figure-picture {
+    flex: 0 0 auto;
+    width: min(var(--max-w, 520px), 58%);
+    margin: 0;
+  }
+
+  /* The arrow sits on the bubble's right edge, pointing right.
+     --tail-top = how far down from the top it sits. */
+  .fig-side .bubbles::after {
+    left: auto;
+    right: 10px;
+    bottom: auto;
+    top: var(--tail-top, 24px);
+    transform: rotate(-45deg);
+  }
+}
+
 /* ---------- Settings for each figure ---------- */
 
+/* Mars: Spirit & Oppy. Arrow points at the camera head. */
+.fig-mer {
+  --max-w: 760px;
+  --tail-x: 0.317;
+}
+
+/* Mars: Ingenuity. Arrow points at the rotor. */
+.fig-ingenuity {
+  --max-w: 420px;
+  --tail-x: 0.49;                     /* phones: arrow under the dialog, at the rotor hub */
+  --tail-top: 24px;                   /* wider screens: arrow on the side, near the top */
+}
+
+/* Moon: Lunar Module */
 .fig-lm {
   --max-w: 520px;
 }
 
-/* Lunar rover: dialog on the upper right, arrow over the seats */
+/* Moon: Lunar rover. Dialog on the upper right, arrow over the seats */
 .fig-lrv {
   --max-w: 560px;
   --tail-x: 0.8;

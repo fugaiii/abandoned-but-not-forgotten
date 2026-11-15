@@ -12,8 +12,8 @@
 
   <!-- Our own styles -->
   <link rel="stylesheet" href="style.css">
-  <!-- NEW: styles for the rover + dialogs -->
-  <link rel="stylesheet" href="rover.css">
+  <!-- NEW: styles for the pictures with clickable parts + dialogs -->
+  <link rel="stylesheet" href="figures.css">
 </head>
 <body class="page-mars">
 
@@ -34,12 +34,36 @@
 
   <!-- Your actual page content goes here -->
   <main class="content">
-    <!-- NEW: the rover. Hover a part to peek, click it to keep the dialog open -->
-    <section class="rover-section">
-      <div class="rover">
+    <!-- NEW: Spirit & Oppy. Hover a part to peek, click it to keep the dialog open -->
+    <h2 class="figure-title">Spirit &amp; Oppy</h2>
 
-        <!-- The whole rover picture -->
-        <img class="rover-img" src="images/rover.webp" alt="A Mars Exploration Rover">
+    <section class="figure fig-mer">
+      <!-- Dialogs above the rover. data-part must match the part it belongs to.
+           "default" shows when nothing is picked. -->
+      <div class="bubbles">
+        <div class="bubble" data-part="default">
+          <p>Hi! I'm Spirit! I can show you the tools I used to study the rocks and soil. With them, I found evidence that water once changed some Martian surfaces. I also helped discover a deposit rich in silica, which may have formed where hot water or steam met the ground.</p>
+          <p class="hint">Click on my parts, and I'll tell you more about them!</p>
+        </div>
+
+        <div class="bubble" data-part="wheels">
+          <h3>Rocker-bogie system</h3>
+          <div class="bubble-body">
+            <img src="images/rocker-bogie.webp" alt="">
+            <p>My mobility system folded up to fit inside my lander for the trip to Mars. After landing, it unfolded and locked into place, ready to carry me across the surface.</p>
+          </div>
+        </div>
+
+        <div class="bubble" data-part="pancam">
+          <div class="bubble-body">
+            <p>To make a color picture, my Pancam takes three pictures of the same scene: one through a <span class="c-red">red</span> filter, one through a <span class="c-green">green</span> filter, and one through a <span class="c-blue">blue</span> filter. A computer combines them into one color image.</p>
+            <img src="images/pancam-color.webp" alt="">
+          </div>
+        </div>
+      </div>
+
+      <div class="figure-picture">
+        <img src="images/rover.webp" alt="A Mars Exploration Rover">
 
         <!-- Clickable parts. clip-path = a rough area around the part;
              the white outline itself hugs the real edges of the picture. -->
@@ -48,35 +72,54 @@
         </div>
 
         <div class="part" data-part="pancam">
-          <img src="images/rover.webp" alt="" style="clip-path: polygon(19.8% 0%, 43.6% 0%, 43.6% 8.2%, 38% 9.2%, 21.1% 11.9%, 19.8% 11.9%)">
+          <img src="images/rover.webp" alt="" style="clip-path: polygon(19.8% 0%, 44.2% 0%, 44.2% 17.4%, 37.1% 17.7%, 35.5% 20.3%, 19.8% 20.3%)">
+        </div>
+      </div>
+
+      <!-- Extra boxes UNDER the rover. Only shows with its part. -->
+      <div class="notes">
+        <div class="bubble" data-part="pancam">
+          <div class="bubble-body">
+            <p>Pancam also uses filters to detect light at wavelengths from about 400 to 1,100 nanometers. Some of this light is near-infrared, which our eyes cannot see. Different rocks and soils reflect light differently, and scientists study these patterns to help identify what they are made of.</p>
+            <img class="cutout" src="images/pancam-head.webp" alt="">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEW: Ingenuity. Dialog on the left, arrow pointing at the helicopter -->
+    <h2 class="figure-title">Ingenuity</h2>
+
+    <section class="figure fig-ingenuity fig-side">
+      <div class="bubbles">
+        <div class="bubble" data-part="default">
+          <p>Hi! I'm Ingenuity, a small helicopter that traveled to Mars attached to the Perseverance rover. In 2021, I became the first aircraft to make a powered, controlled flight on another planet!</p>
         </div>
 
-        <!-- Dialogs. data-part must match the part above it belongs to. -->
-        <div class="info" data-part="wheels">
-          <div class="bubble">
-            <h3>Rocker-bogie system</h3>
-            <div class="bubble-body">
-              <img src="images/mars.jpg" alt="">
-              <p>Mobility system had to fit inside the lander for the journey to Mars. After landing, it unfolded and locked into place so the rovers could drive away.</p>
-            </div>
+        <div class="bubble" data-part="panel">
+          <div class="bubble-body">
+            <img class="cutout" src="images/solar-panel.webp" alt="">
+            <p>I used my solar panel to charge my batteries. They gave me the energy to fly and to run the heaters that kept me warm at night.</p>
           </div>
         </div>
 
-        <div class="info" data-part="pancam">
-          <div class="bubble">
-            <h3>Pancam</h3>
-            <div class="bubble-body">
-              <p>To make a color picture, the Pancam takes three pictures of the same scene: one through a <span class="c-red">red</span> filter, <span class="c-green">green</span> filter, <span class="c-blue">blue</span> filter, and combines them into one color image.</p>
-              <img src="images/mars.jpg" alt="">
-            </div>
-          </div>
-          <!-- Optional extra box under the rover. Delete it if a part doesn't need one. -->
-          <div class="note">
-            <p>The cameras also use filters that detect light at wavelengths from about 400 to 1,100 nanometres. Some of this light, called near-infrared, is invisible to our eyes. Different rocks and soils reflect light differently at different wavelengths and identify them.</p>
-            <img src="images/mars.jpg" alt="">
-          </div>
+        <div class="bubble" data-part="rotors">
+          <p>I had four carbon-fiber blades arranged in two rotors. They spun in opposite directions at about 2,400 revolutions per minute. Mars has very thin air, so my rotors had to spin fast to push enough air to lift me.</p>
+        </div>
+      </div>
+
+      <div class="figure-picture">
+        <img src="images/ingenuity.webp" alt="The Ingenuity Mars helicopter">
+
+        <div class="part" data-part="panel">
+          <img src="images/ingenuity.webp" alt="" style="clip-path: polygon(29.9% 10.5%, 39.1% 5.5%, 66.6% 14.3%, 60% 20.2%)">
         </div>
 
+        <!-- Two pieces: the top rotor + hub, and the lower blade hanging down -->
+        <div class="part" data-part="rotors">
+          <img src="images/ingenuity.webp" alt="" style="clip-path: polygon(0% 11.4%, 29.6% 10.9%, 59.9% 20.4%, 66.8% 15%, 100% 19%, 100% 30.4%, 52.7% 30.4%, 52.7% 34%, 44.9% 34%, 41.3% 29.7%, 0% 21.4%)">
+          <img src="images/ingenuity.webp" alt="" style="clip-path: polygon(47.2% 33.5%, 45.7% 35.6%, 47.9% 47.5%, 49% 61.8%, 49.7% 68.4%, 51.6% 69.6%, 53.9% 67.9%, 54.9% 59.4%, 55.4% 47.5%, 55.8% 43.2%, 53.4% 39.4%, 50.9% 35.6%, 48.7% 33.3%)">
+        </div>
       </div>
     </section>
   </main>
@@ -84,9 +127,9 @@
   <!-- Short fade from the page color into black at the very end -->
   <div class="fade-to-black"></div>
 
-  <!-- NEW: the filter that draws the thick outline around rover parts -->
+  <!-- NEW: the filter that draws the thick outline around the parts -->
   <svg width="0" height="0" style="position: absolute" aria-hidden="true">
-    <filter id="rover-outline" x="-10%" y="-10%" width="120%" height="120%">
+    <filter id="outline" x="-10%" y="-10%" width="120%" height="120%">
       <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
       <feComponentTransfer result="fat">
         <feFuncA type="linear" slope="20" intercept="-1"/>
@@ -100,8 +143,8 @@
     </filter>
   </svg>
 
-  <!-- NEW: makes the rover parts clickable -->
-  <script src="rover.js"></script>
+  <!-- NEW: makes the parts clickable -->
+  <script src="figures.js"></script>
 
 </body>
 </html>
