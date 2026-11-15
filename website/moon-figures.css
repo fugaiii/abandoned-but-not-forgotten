@@ -1,0 +1,213 @@
+/* ==========================================================
+   MOON PAGE: Lunar Module + Lunar Rover with clickable parts
+   Same idea as the Mars rover:
+   hover a part = peek, click a part = it stays open.
+   When nothing is picked, the "default" dialog shows.
+   ========================================================== */
+
+/* ---------- Headings ("Lunar Module", "Here's my rover!") ---------- */
+
+.figure-title {
+  margin: 60px 0 30px;
+  text-align: center;
+  font-size: clamp(1.8rem, 4.5vw, 3rem);
+  font-weight: 400;
+  line-height: 1.25;
+  user-select: none;
+}
+
+.figure-subtitle {
+  margin: 70px 0 30px;
+  text-align: center;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 400;
+  user-select: none;
+}
+
+/* ---------- One figure = dialogs on top + picture below ---------- */
+
+.figure {
+  /* How wide the picture gets */
+  --fig-w: min(var(--max-w, 520px), 100%);
+  /* Where the dialog's arrow points: 0 = left edge of picture, 1 = right edge */
+  --tail-x: 0.5;
+  /* How far the dialog reaches down INTO the picture (in picture widths) */
+  --overlap: 0;
+  /* The arrow's spot, worked out from the numbers above. Don't touch. */
+  --tail-pos: calc(50% + (var(--tail-x) - 0.5) * var(--fig-w));
+
+  margin: 0 auto 40px;
+}
+
+/* All dialogs of one figure sit on top of each other in the SAME spot.
+   That spot is as tall as the tallest dialog, so a long text
+   never covers the heading above it. */
+.bubbles {
+  display: grid;
+  position: relative;
+  z-index: 2;
+  padding-bottom: 22px;               /* room for the arrow */
+  margin-bottom: calc(var(--overlap) * var(--fig-w) * -1);
+  pointer-events: none;               /* don't block hovering the parts */
+  /* Soft LIGHT shadow, so it shows up on the black page */
+  filter: drop-shadow(0 4px 16px rgba(255, 255, 255, 0.22));
+}
+
+.bubble {
+  grid-area: 1 / 1;                   /* everyone in the same cell */
+  align-self: end;                    /* short dialogs sit at the bottom, near the arrow */
+  justify-self: center;
+  width: fit-content;                 /* as wide as the text needs... */
+  max-width: min(560px, 100%);        /* ...up to this */
+  visibility: hidden;
+  pointer-events: auto;
+
+  background: #3d3d3d;
+  color: #ffffff;
+  border-radius: 20px;
+  padding: 14px 22px 16px;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.bubble.on {
+  visibility: visible;
+  animation: figure-pop-in 0.25s ease-out;   /* fade in only, no fade out */
+}
+
+/* The little arrow, pointing down at the picture */
+.bubbles::after {
+  content: '';
+  position: absolute;
+  left: var(--tail-pos);
+  bottom: 10px;
+  width: 24px;
+  height: 24px;
+  background: #3d3d3d;
+  border-bottom-right-radius: 5px;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.bubble h3 {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.bubble p {
+  margin: 0;
+}
+
+/* Text + picture side by side. Order = the order in the HTML. */
+.bubble-body {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.bubble-body p {
+  text-align: left;
+}
+
+.bubble img {
+  width: 140px;
+  max-width: 40%;
+  flex-shrink: 0;
+  border: 3px solid #ffffff;
+  border-radius: 12px;
+  rotate: -2deg;
+}
+
+/* ---------- The picture + clickable parts (same as Mars) ---------- */
+
+.figure-picture {
+  position: relative;
+  width: var(--fig-w);
+  margin: 0 auto;
+}
+
+.figure-picture img {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* A copy of the picture, cut down to one part (clip-path in the HTML).
+   The SVG filter #outline draws the thick white line around it. */
+.part {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  filter: url(#outline) drop-shadow(0 0 6px rgba(255, 255, 255, 0.35));
+}
+
+.part img {
+  position: absolute;                 /* a part can have more than one piece */
+  top: 0;
+  left: 0;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.part.on {
+  opacity: 1;
+  animation: figure-fade-in 0.2s ease-out;
+}
+
+/* ---------- Settings for each figure ---------- */
+
+.fig-lm {
+  --max-w: 520px;
+}
+
+/* Lunar rover: dialog on the upper right, arrow over the seats */
+.fig-lrv {
+  --max-w: 560px;
+  --tail-x: 0.8;
+  --overlap: 0.18;
+}
+
+.fig-lrv .bubble {
+  justify-self: start;
+  max-width: min(340px, 100%);
+  /* start a bit left of the arrow, but never run off the right edge */
+  margin-left: clamp(0px, var(--tail-pos) - 40px, 100% - min(340px, 100%));
+}
+
+/* Phones: not enough room on the side, so put it above, centered */
+@media (max-width: 600px) {
+  .fig-lrv {
+    --overlap: 0;
+  }
+
+  .fig-lrv .bubble {
+    justify-self: center;
+    margin-left: 0;
+  }
+}
+
+/* ---------- Animations ---------- */
+
+@keyframes figure-fade-in {
+  from { opacity: 0; }
+}
+
+@keyframes figure-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .part.on,
+  .bubble.on {
+    animation: none;
+  }
+}

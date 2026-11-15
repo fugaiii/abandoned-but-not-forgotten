@@ -1,0 +1,28 @@
+/* ==========================================================
+   STARS in the background (made by stars.js)
+   ========================================================== */
+
+/* Covers the whole screen, behind everything, can't be clicked */
+.stars {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Small stars = soft round dots */
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.7);
+  transform: translate(-50%, -50%);   /* the star's middle sits on its spot */
+}
+
+/* Bigger stars = 4-pointed sparkle shape */
+.star.big {
+  border-radius: 0;
+  box-shadow: none;
+  clip-path: polygon(50% 0%, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0% 50%, 40% 40%);
+}

@@ -12,6 +12,8 @@
 
   <!-- Same stylesheet as the Mars page -->
   <link rel="stylesheet" href="style.css">
+  <!-- NEW: styles for the Lunar Module + rover + dialogs -->
+  <link rel="stylesheet" href="moon-figures.css">
 </head>
 <body class="page-moon">
 
@@ -32,11 +34,106 @@
 
   <!-- Your actual page content goes here -->
   <main class="content">
-    <p>Text about the Moon goes here.</p>
+
+    <!-- NEW: Lunar Module. Hover a part to peek, click it to keep the dialog open -->
+    <h2 class="figure-title">Lunar Module</h2>
+
+    <section class="figure fig-lm">
+      <!-- Dialogs. data-part must match the part it belongs to.
+           "default" shows when nothing is picked. -->
+      <div class="bubbles">
+        <div class="bubble" data-part="default">
+          <p>I am Falcon, the Apollo 15 Lunar Module. I carried astronauts, their rover, and scientific equipment to the Moon!</p>
+        </div>
+
+        <div class="bubble" data-part="lrrr">
+          <h3>Laser Ranging Retroreflector</h3>
+          <div class="bubble-body">
+            <p>I have 300 tiny glass reflectors. I don't need power: when scientists send a laser pulse from Earth, I bounce it back. By timing how long the light takes to travel to the Moon and back, scientists can measure the Earth-Moon distance very accurately. On average, this takes about 2.56 seconds.</p>
+            <img src="images/lrrr.webp" alt="">
+          </div>
+        </div>
+
+        <div class="bubble" data-part="side">
+          <h3>Suprathermal Ion Detector (SIDE)</h3>
+          <div class="bubble-body">
+            <img src="images/side.webp" alt="">
+            <p>This is SIDE! My measurements helped understand how these particles interact with the Moon and how electrically charged its surface can become. These particles came from the Sun and some of them came from the space around Earth.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="figure-picture">
+        <img src="images/lunar-module.webp" alt="The Apollo 15 Lunar Module, Falcon">
+
+        <!-- Clickable parts. clip-path = the area of the part -->
+        <div class="part" data-part="lrrr">
+          <img src="images/lunar-module.webp" alt="" style="clip-path: polygon(25.9% 48%, 39.8% 48%, 35.9% 72%, 26.1% 71.8%)">
+        </div>
+
+        <div class="part" data-part="side">
+          <img src="images/lunar-module.webp" alt="" style="clip-path: polygon(59.9% 57.9%, 75.9% 60.2%, 76.3% 60.7%, 76.3% 67.9%, 71.7% 70.9%, 60% 70.9%)">
+        </div>
+      </div>
+    </section>
+
+    <!-- NEW: the Lunar Rover -->
+    <h3 class="figure-subtitle">Here's my rover!</h3>
+
+    <section class="figure fig-lrv">
+      <div class="bubbles">
+        <div class="bubble" data-part="default">
+          <p>I folded up for the trip to the Moon and once we landed, the astronauts unfolded me!</p>
+        </div>
+
+        <div class="bubble" data-part="antennas">
+          <p>I also carried a communications unit with two antennas. A small antenna relayed the astronauts' voices and data while I was moving. When we stopped, they aimed my large dish antenna toward Earth to send TV pictures.</p>
+        </div>
+
+        <div class="bubble" data-part="wheels">
+          <p>Each wheel had its own motor, and both the front and rear wheels could steer. This helped me carry astronauts and their equipment across the Moon.</p>
+        </div>
+      </div>
+
+      <div class="figure-picture">
+        <img src="images/lunar-rover.webp" alt="The Apollo 15 Lunar Roving Vehicle">
+
+        <!-- One part can have several pieces: here the big dish + the small antenna -->
+        <div class="part" data-part="antennas">
+          <img src="images/lunar-rover.webp" alt="" style="clip-path: polygon(0% 0%, 28.1% 0%, 28.1% 11.5%, 24.3% 14.4%, 21.1% 17.8%, 18.5% 19.7%, 16.9% 21%, 14.4% 21.9%, 11.5% 23.6%, 6.4% 24.1%, 0% 23.1%)">
+          <img src="images/lunar-rover.webp" alt="" style="clip-path: polygon(43.4% 17.3%, 48.5% 17.3%, 48.5% 26.6%, 43.4% 26.6%)">
+        </div>
+
+        <!-- The wheels: front and back -->
+        <div class="part" data-part="wheels">
+          <img src="images/lunar-rover.webp" alt="" style="clip-path: polygon(21.7% 71.2%, 25.5% 65.3%, 31.9% 63.8%, 37.7% 65.3%, 41.4% 69.5%, 43.3% 76%, 43.3% 100%, 19.1% 100%, 19% 84.7%, 19% 77%)">
+          <img src="images/lunar-rover.webp" alt="" style="clip-path: polygon(78.2% 94.8%, 78.1% 84.7%, 78.2% 77%, 79% 72.2%, 80.5% 67.4%, 82% 64.7%, 84.2% 63%, 86.8% 62.3%, 91.3% 61.6%, 97% 62.6%, 100% 68.3%, 100% 94.8%)">
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- Short fade from the page color into black at the very end -->
   <div class="fade-to-black"></div>
+
+  <!-- NEW: the filter that draws the thick outline around parts -->
+  <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+    <filter id="outline" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feComponentTransfer result="fat">
+        <feFuncA type="linear" slope="20" intercept="-1"/>
+      </feComponentTransfer>
+      <feFlood flood-color="#ffffff"/>
+      <feComposite in2="fat" operator="in"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </svg>
+
+  <!-- NEW: makes the parts clickable -->
+  <script src="moon-figures.js"></script>
 
 </body>
 </html>
