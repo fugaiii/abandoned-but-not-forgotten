@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pick your travel destination!</title>
+
+  <!-- Load the Lexend Exa font from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend+Exa:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Same stylesheet as the Moon & Mars pages -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Styles only for the home page -->
+  <link rel="stylesheet" href="home.css">
+</head>
+<body class="page-home">
+
+  <!-- Frosted top bar, stays on screen while scrolling -->
+  <nav class="topbar">
+    <a href="index.html" class="return-link active">Home</a>
+
+    <div class="nav-center">
+      <a href="moon.html">The Moon</a>
+      <a href="mars.html">Mars</a>
+    </div>
+  </nav>
+
+  <main class="home">
+    <!-- As wide as the title, so the planets line up with its edges -->
+    <div class="home-inner">
+      <h1>Pick your travel destination!</h1>
+
+      <!-- The whole row (picture + name) is one big button,
+           so little fingers can't miss it -->
+      <div class="destinations">
+        <a href="moon.html" class="destination destination-moon">
+          <img class="planet" src="images/moon-disk.webp" alt="" width="1000" height="1000">
+          <span class="planet-name">The Moon</span>
+        </a>
+
+        <a href="mars.html" class="destination destination-mars">
+          <span class="planet-name">Mars</span>
+          <img class="planet" src="images/mars-disk.webp" alt="" width="1000" height="1000">
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Short fade from the page color into black at the very end -->
+  <div class="fade-to-black"></div>
+
+</body>
+</html>

@@ -1,0 +1,130 @@
+/* ==========================================================
+   HOME PAGE  (index.html)
+   Pick the Moon or Mars. Click a planet (or its name) to go there.
+   ========================================================== */
+
+.home {
+  /* Fill the screen, so the fade sits at the very bottom
+     (150px = the height of .fade-to-black) */
+  min-height: calc(100vh - 150px);
+  padding: 130px 6vw 60px;            /* 84px top bar + some air */
+
+  /* Real-life sizes: Mars is 1.951x wider than the Moon
+     (Moon radius 1,737.4 km, Mars radius 3,389.5 km).
+     Only change --moon-size; Mars follows automatically. */
+  --moon-size: clamp(120px, 17vw, 300px);
+  --mars-size: calc(var(--moon-size) * 1.951);
+}
+
+/* Shrinks to the width of the title and sits in the middle.
+   The Moon starts where the title starts, Mars ends where it ends. */
+.home-inner {
+  width: fit-content;
+  margin: 0 auto;
+}
+
+/* ---------- Title ---------- */
+
+.home h1 {
+  margin: 0 0 40px;
+  text-align: center;
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 400;
+  line-height: 1.25;
+  user-select: none;
+  animation: rise-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ---------- The two planets ---------- */
+
+/* Moon on the left edge, Mars on the right edge */
+.destinations {
+  display: flex;
+  flex-direction: column;
+}
+
+.destination {
+  display: flex;
+  align-items: center;                /* name's middle = planet's middle */
+  gap: clamp(20px, 3.5vw, 64px);
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 999px;               /* round focus ring for keyboard users */
+}
+
+.destination-moon {
+  align-self: flex-start;
+}
+
+.destination-mars {
+  align-self: flex-end;
+}
+
+.planet {
+  display: block;
+  height: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+
+  /* Small shadow under the planet. drop-shadow (not box-shadow)
+     follows the round shape instead of the square picture box. */
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.45));
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+              filter 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.destination-moon .planet {
+  width: var(--moon-size);
+}
+
+.destination-mars .planet {
+  width: var(--mars-size);
+}
+
+.planet-name {
+  font-size: clamp(1.4rem, 3.5vw, 3rem);
+  user-select: none;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* The name grows away from its planet, so they never bump into each other */
+.destination-moon .planet-name {
+  transform-origin: left center;
+}
+
+.destination-mars .planet-name {
+  transform-origin: right center;
+}
+
+/* Planet AND name grow a little when you point at either one
+   = "you can click me!" */
+.destination:hover .planet,
+.destination:focus-visible .planet,
+.destination:hover .planet-name,
+.destination:focus-visible .planet-name {
+  transform: scale(1.06);
+}
+
+/* ...and its shadow gets bigger and softer, like it lifts off the page */
+.destination:hover .planet,
+.destination:focus-visible .planet {
+  filter: drop-shadow(0 16px 24px rgba(0, 0, 0, 0.5));
+}
+
+.destination:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 8px;
+}
+
+/* ---------- Respect people who turn off animations ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .home h1 {
+    animation: none;
+  }
+
+  .planet,
+  .planet-name {
+    transition: none;
+  }
+}
