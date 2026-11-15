@@ -16,11 +16,19 @@
   <link rel="stylesheet" href="home.css">
   <!-- NEW: random stars in the background -->
   <link rel="stylesheet" href="stars.css">
+  <!-- NEW: the small-screen menu -->
+  <link rel="stylesheet" href="menu.css">
 </head>
 <body class="page-home">
 
   <!-- Frosted top bar, stays on screen while scrolling -->
   <nav class="topbar">
+    <!-- NEW: small screens: button with three lines that turn into a cross -->
+    <button class="menu-button" type="button" data-toggle aria-expanded="false" aria-controls="mobile-menu"
+            aria-label="Open menu" data-label-open="Open menu" data-label-close="Close menu">
+      <span></span><span></span><span></span>
+    </button>
+
     <a href="index.html" class="return-link active">Home</a>
 
     <div class="nav-center">
@@ -28,6 +36,13 @@
       <a href="mars.html">Mars</a>
     </div>
   </nav>
+
+  <!-- NEW: small screens: the menu that slides out under the bar -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html" class="active" aria-current="page">Home</a>
+    <a href="moon.html">The Moon</a>
+    <a href="mars.html">Mars</a>
+  </div>
 
   <main class="home">
     <!-- As wide as the title, so the planets line up with its edges -->
@@ -55,6 +70,9 @@
 
   <!-- NEW: makes the random stars -->
   <script src="stars.js"></script>
+
+  <!-- NEW: opens/closes the small-screen menus -->
+  <script src="menu.js"></script>
 
 </body>
 </html>

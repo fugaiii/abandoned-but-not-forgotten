@@ -16,11 +16,19 @@
   <link rel="stylesheet" href="figures.css">
   <!-- NEW: styles for the map at the bottom -->
   <link rel="stylesheet" href="map.css">
+  <!-- NEW: the small-screen menu -->
+  <link rel="stylesheet" href="menu.css">
 </head>
 <body class="page-mars">
 
   <!-- Frosted top bar, stays on screen while scrolling -->
   <nav class="topbar">
+    <!-- NEW: small screens: button with three lines that turn into a cross -->
+    <button class="menu-button" type="button" data-toggle aria-expanded="false" aria-controls="mobile-menu"
+            aria-label="Open menu" data-label-open="Open menu" data-label-close="Close menu">
+      <span></span><span></span><span></span>
+    </button>
+
     <a href="index.html" class="return-link">&larr; Return to the starting position</a>
 
     <div class="nav-center">
@@ -28,6 +36,13 @@
       <a href="mars.html" class="active">Mars</a>
     </div>
   </nav>
+
+  <!-- NEW: small screens: the menu that slides out under the bar -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="moon.html">The Moon</a>
+    <a href="mars.html" class="active" aria-current="page">Mars</a>
+  </div>
 
   <!-- Big picture at the top with "Mars" in the middle -->
   <header class="hero">
@@ -50,7 +65,7 @@
         <div class="bubble" data-part="wheels">
           <h3>Rocker-bogie system</h3>
           <div class="bubble-body">
-            <img src="images/rocker-bogie.webp" alt="">
+            <img src="images/rocker-bogie.webp" alt="Close-up of the rover's wheels and the metal rocker-bogie arms that connect them, on rocky Martian ground">
             <p>My mobility system folded up to fit inside my lander for the trip to Mars. After landing, it unfolded and locked into place, ready to carry me across the surface.</p>
           </div>
         </div>
@@ -58,16 +73,20 @@
         <div class="bubble" data-part="pancam">
           <div class="bubble-body">
             <p>My Pancam takes two pictures of the same landscape from slightly different positions, just like your two eyes do. Put together, they make an anaglyph stereo image like this one, which shows depth on a flat, two-dimensional picture!</p>
-            <img class="wide" src="images/pancam-color.webp" alt="">
+            <img class="wide" src="images/pancam-color.webp" alt="A red and blue 3D picture of a rocky Martian plain with a hill in the distance and the rover's shadow in front">
           </div>
         </div>
       </div>
 
       <div class="figure-picture">
-        <img src="images/rover.webp" alt="A Mars Exploration Rover">
+        <img src="images/rover.webp" alt="Spirit, a six-wheeled Mars rover with wing-like solar panels and a tall camera mast">
 
         <!-- The tilted "how to use me" text. Fades away after the first hover/click. -->
-        <p class="figure-hint" aria-hidden="true">Hover over my parts to find out more!<br>Click to pin them!</p>
+        <!-- Mouse: "Hover...". Touchscreen: "Press..." (switched in figures.css) -->
+        <p class="figure-hint" aria-hidden="true">
+          <span class="hint-mouse">Hover over my parts to find out more!<br>Click to pin them!</span>
+          <span class="hint-touch">Press on my parts to find out more!</span>
+        </p>
 
         <!-- Clickable parts. clip-path = a rough area around the part;
              the white outline itself hugs the real edges of the picture. -->
@@ -85,7 +104,7 @@
         <div class="bubble" data-part="pancam">
           <div class="bubble-body">
             <p>Pancam also uses filters to detect light at wavelengths from about 400 to 1,100 nanometers. Some of this light is near-infrared, which our eyes cannot see. Different rocks and soils reflect light differently, and scientists study these patterns to help identify what they are made of.</p>
-            <img class="cutout" src="images/pancam-head.webp" alt="">
+            <img class="cutout" src="images/pancam-head.webp" alt="The Pancam camera head on top of the rover's mast">
           </div>
         </div>
       </div>
@@ -102,7 +121,7 @@
 
         <div class="bubble" data-part="panel">
           <div class="bubble-body">
-            <img class="cutout" src="images/solar-panel.webp" alt="">
+            <img class="cutout" src="images/solar-panel.webp" alt="Ingenuity's rectangular solar panel, covered in small solar cells">
             <p>I used my solar panel to charge my batteries. They gave me the energy to fly and to run the heaters that kept me warm at night.</p>
           </div>
         </div>
@@ -113,7 +132,7 @@
       </div>
 
       <div class="figure-picture">
-        <img src="images/ingenuity.webp" alt="The Ingenuity Mars helicopter">
+        <img src="images/ingenuity.webp" alt="Ingenuity, a small helicopter with two long rotor blades, a solar panel on top and four thin legs">
 
         <div class="part" data-part="panel">
           <img src="images/ingenuity.webp" alt="" style="clip-path: polygon(29.9% 10.5%, 39.1% 5.5%, 66.6% 14.3%, 60% 20.2%)">
@@ -140,11 +159,17 @@
       <div class="pin pin-below" style="left: 98.66%; top: 57.86%"><span>Start of the<br>Spirit mission</span></div>
 
       <!-- NEW: frosted box in the bottom-left corner -->
-      <ul class="map-facts">
-        <!-- &nbsp; keeps the number and "km" together on one line -->
-        <li>Total distance for<br>Ingenuity: 17.2&nbsp;km</li>
-        <li>Total distance for<br>Spirit: 7.73&nbsp;km</li>
-      </ul>
+      <div class="map-facts-wrap">
+        <ul class="map-facts" id="map-facts">
+          <!-- &nbsp; keeps the number and "km" together on one line -->
+          <li>Total distance for<br>Ingenuity: 17.2&nbsp;km</li>
+          <li>Total distance for<br>Spirit: 7.73&nbsp;km</li>
+        </ul>
+
+        <!-- NEW: small screens: the arrow that slides the box out / back in -->
+        <button class="facts-button" type="button" data-toggle aria-expanded="false" aria-controls="map-facts"
+                aria-label="Show mission distances" data-label-open="Show mission distances" data-label-close="Hide mission distances"></button>
+      </div>
     </div>
   </section>
 
@@ -169,6 +194,9 @@
 
   <!-- NEW: makes the parts clickable -->
   <script src="figures.js"></script>
+
+  <!-- NEW: opens/closes the small-screen menus -->
+  <script src="menu.js"></script>
 
 </body>
 </html>

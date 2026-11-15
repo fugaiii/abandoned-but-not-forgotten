@@ -257,6 +257,21 @@
   }
 }
 
+/* Mouse: "Hover over my parts...". Touchscreen (can't hover): "Press on my parts..." */
+.hint-touch {
+  display: none;
+}
+
+@media (hover: none) {
+  .hint-mouse {
+    display: none;
+  }
+
+  .hint-touch {
+    display: inline;
+  }
+}
+
 /* figures.js adds "touched" after the first hover/click: fade away for good */
 .figure.touched .figure-hint {
   opacity: 0;

@@ -14,11 +14,19 @@
   <link rel="stylesheet" href="style.css">
   <!-- NEW: styles for the pictures with clickable parts + dialogs -->
   <link rel="stylesheet" href="figures.css">
+  <!-- NEW: the small-screen menu -->
+  <link rel="stylesheet" href="menu.css">
 </head>
 <body class="page-moon">
 
   <!-- Frosted top bar, stays on screen while scrolling -->
   <nav class="topbar">
+    <!-- NEW: small screens: button with three lines that turn into a cross -->
+    <button class="menu-button" type="button" data-toggle aria-expanded="false" aria-controls="mobile-menu"
+            aria-label="Open menu" data-label-open="Open menu" data-label-close="Close menu">
+      <span></span><span></span><span></span>
+    </button>
+
     <a href="index.html" class="return-link">&larr; Return to the starting position</a>
 
     <div class="nav-center">
@@ -26,6 +34,13 @@
       <a href="mars.html">Mars</a>
     </div>
   </nav>
+
+  <!-- NEW: small screens: the menu that slides out under the bar -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="moon.html" class="active" aria-current="page">The Moon</a>
+    <a href="mars.html">Mars</a>
+  </div>
 
   <!-- Big picture at the top with "Moon" in the middle -->
   <header class="hero">
@@ -50,24 +65,28 @@
           <h3>Laser Ranging Retroreflector</h3>
           <div class="bubble-body">
             <p>I have 300 tiny glass reflectors. I don't need power: when scientists send a laser pulse from Earth, I bounce it back. By timing how long the light takes to travel to the Moon and back, scientists can measure the Earth-Moon distance very accurately. On average, this takes about 2.56 seconds.</p>
-            <img src="images/lrrr.webp" alt="">
+            <img src="images/lrrr.webp" alt="The Laser Ranging Retroreflector: a flat panel full of small round glass reflectors">
           </div>
         </div>
 
         <div class="bubble" data-part="side">
           <h3>Suprathermal Ion Detector (SIDE)</h3>
           <div class="bubble-body">
-            <img src="images/side.webp" alt="">
+            <img src="images/side.webp" alt="SIDE, a small box-shaped science instrument with cables, set up on the Moon">
             <p>This is SIDE! My measurements helped understand how these particles interact with the Moon and how electrically charged its surface can become. These particles came from the Sun and some of them came from the space around Earth.</p>
           </div>
         </div>
       </div>
 
       <div class="figure-picture">
-        <img src="images/lunar-module.webp" alt="The Apollo 15 Lunar Module, Falcon">
+        <img src="images/lunar-module.webp" alt="Falcon, the Apollo 15 Lunar Module: a gold and silver spacecraft standing on four legs">
 
         <!-- The tilted "how to use me" text. Fades away after the first hover/click. -->
-        <p class="figure-hint" aria-hidden="true">Hover over my parts to find out more!<br>Click to pin them!</p>
+        <!-- Mouse: "Hover...". Touchscreen: "Press..." (switched in figures.css) -->
+        <p class="figure-hint" aria-hidden="true">
+          <span class="hint-mouse">Hover over my parts to find out more!<br>Click to pin them!</span>
+          <span class="hint-touch">Press on my parts to find out more!</span>
+        </p>
 
         <!-- Clickable parts. clip-path = the area of the part -->
         <div class="part" data-part="lrrr">
@@ -99,7 +118,7 @@
       </div>
 
       <div class="figure-picture">
-        <img src="images/lunar-rover.webp" alt="The Apollo 15 Lunar Roving Vehicle">
+        <img src="images/lunar-rover.webp" alt="The Apollo 15 Lunar Roving Vehicle: a small open car with four big wheels, two seats and a dish antenna">
 
         <!-- One part can have several pieces: here the big dish + the small antenna -->
         <div class="part" data-part="antennas">
@@ -137,6 +156,9 @@
 
   <!-- NEW: makes the parts clickable -->
   <script src="figures.js"></script>
+
+  <!-- NEW: opens/closes the small-screen menus -->
+  <script src="menu.js"></script>
 
 </body>
 </html>
