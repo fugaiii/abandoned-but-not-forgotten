@@ -14,6 +14,8 @@
   <link rel="stylesheet" href="style.css">
   <!-- NEW: styles for the pictures with clickable parts + dialogs -->
   <link rel="stylesheet" href="figures.css">
+  <!-- NEW: styles for the map at the bottom -->
+  <link rel="stylesheet" href="map.css">
 </head>
 <body class="page-mars">
 
@@ -43,7 +45,6 @@
       <div class="bubbles">
         <div class="bubble" data-part="default">
           <p>Hi! I'm Spirit! I can show you the tools I used to study the rocks and soil. With them, I found evidence that water once changed some Martian surfaces. I also helped discover a deposit rich in silica, which may have formed where hot water or steam met the ground.</p>
-          <p class="hint">Click on my parts, and I'll tell you more about them!</p>
         </div>
 
         <div class="bubble" data-part="wheels">
@@ -56,14 +57,17 @@
 
         <div class="bubble" data-part="pancam">
           <div class="bubble-body">
-            <p>To make a color picture, my Pancam takes three pictures of the same scene: one through a <span class="c-red">red</span> filter, one through a <span class="c-green">green</span> filter, and one through a <span class="c-blue">blue</span> filter. A computer combines them into one color image.</p>
-            <img src="images/pancam-color.webp" alt="">
+            <p>My Pancam takes two pictures of the same landscape from slightly different positions, just like your two eyes do. Put together, they make an anaglyph stereo image like this one, which shows depth on a flat, two-dimensional picture!</p>
+            <img class="wide" src="images/pancam-color.webp" alt="">
           </div>
         </div>
       </div>
 
       <div class="figure-picture">
         <img src="images/rover.webp" alt="A Mars Exploration Rover">
+
+        <!-- The tilted "how to use me" text. Fades away after the first hover/click. -->
+        <p class="figure-hint" aria-hidden="true">Hover over my parts to find out more!<br>Click to pin them!</p>
 
         <!-- Clickable parts. clip-path = a rough area around the part;
              the white outline itself hugs the real edges of the picture. -->
@@ -123,6 +127,19 @@
       </div>
     </section>
   </main>
+
+  <!-- NEW: map of where the missions started and ended.
+       left/top = the exact spot on the map, in % of its width/height. -->
+  <section class="mission-map">
+    <div class="map">
+      <img src="images/mars-map.webp" alt="Map of Mars showing where the Spirit and Ingenuity missions started and ended" width="1920" height="1080">
+
+      <div class="pin pin-left" style="left: 69.93%; top: 37.60%"><span>End of Ingenuity<br>mission</span></div>
+      <div class="pin pin-right" style="left: 71.86%; top: 38.65%"><span>Start of the<br>Ingenuity mission</span></div>
+      <div class="pin pin-left-up" style="left: 96.77%; top: 54.54%"><span>End of Spirit<br>mission</span></div>
+      <div class="pin pin-below" style="left: 98.66%; top: 57.86%"><span>Start of the<br>Spirit mission</span></div>
+    </div>
+  </section>
 
   <!-- Short fade from the page color into black at the very end -->
   <div class="fade-to-black"></div>

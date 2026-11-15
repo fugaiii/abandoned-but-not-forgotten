@@ -1,4 +1,4 @@
-// Moon page figures: hover a part = peek, click = stays open (even while scrolling).
+// Figures (Moon + Mars): hover a part = peek, click = stays open (even while scrolling).
 // Click the same part again or anywhere else to close it.
 // When nothing is picked, the dialog with data-part="default" shows.
 
@@ -22,6 +22,7 @@ figures.forEach(fig => {
 
         part.addEventListener('pointerenter', e => {
             if (e.pointerType !== 'mouse') return;   // phones/tablets just use taps
+            fig.el.classList.add('touched');          // fade away the "Hover over my parts" text
             fig.hovered = name;
             update(fig);
         });
@@ -33,6 +34,7 @@ figures.forEach(fig => {
 
         part.addEventListener('click', e => {
             e.stopPropagation();                      // don't let the page click below close it
+            fig.el.classList.add('touched');
             const wasPinned = fig.pinned === name;
             figures.forEach(other => { other.pinned = null; update(other); });  // only one open at a time
             fig.pinned = wasPinned ? null : name;

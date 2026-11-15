@@ -1,0 +1,105 @@
+/* ==========================================================
+   MARS MAP at the bottom of the Mars page
+   Pins are placed in % of the map, so they stay on the exact
+   same spot at every screen size.
+   ========================================================== */
+
+/* Full width, so the black fade at the bottom reaches both sides */
+.mission-map {
+  margin-top: 60px;
+}
+
+.map {
+  position: relative;
+  container-type: inline-size;        /* lets text size follow the map's width (cqw) */
+}
+
+.map img {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Short fades: page color into the map at the top,
+   map into black at the bottom (both cover the unused poles) */
+.map::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    var(--page-color) 0%,
+    transparent 6%,
+    transparent 94%,
+    #000000 100%
+  );
+}
+
+/* The map now ends the page in black, so the usual
+   fade-to-black strip under it isn't needed */
+.mission-map + .fade-to-black {
+  display: none;
+}
+
+/* ---------- Pins ---------- */
+
+/* A pin is a 0x0 point exactly on its spot (left/top in the HTML).
+   The dot and the label are placed around that point. */
+.pin {
+  position: absolute;
+  z-index: 1;
+  width: 0;
+  height: 0;
+  font-size: max(1.35cqw, 8px);       /* grows and shrinks with the map */
+  font-weight: 500;
+  line-height: 1.3;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+/* The dot, centered on the spot */
+.pin::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: max(0.45cqw, 5px);
+  height: max(0.45cqw, 5px);
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.6);
+  transform: translate(-50%, -50%);
+}
+
+.pin span {
+  position: absolute;
+  width: max-content;
+}
+
+/* Label to the RIGHT of the dot, first line level with the dot */
+.pin-right span {
+  left: 0.6em;
+  top: -0.65em;
+}
+
+/* Label to the LEFT of the dot, first line level with the dot */
+.pin-left span {
+  right: 0.6em;
+  top: -0.65em;
+}
+
+/* Label to the LEFT of the dot, LAST line level with the dot */
+.pin-left-up span {
+  right: 0.6em;
+  bottom: -0.65em;
+}
+
+/* Label UNDER the dot, ending just past it (for pins near the right edge) */
+.pin-below span {
+  right: -0.5em;
+  top: 0.55em;
+  text-align: right;
+}
